@@ -659,7 +659,7 @@ app.get('/courses', function (req, res) {
                 if(subjects==null){subjects={}}
                 findTeacherSubjects.then(function (teacherSubjects) {
                     if(teacherSubjects==null){teacherSubjects={}}
-                    res.render('indexCoursesNew',{ school:school,
+                    res.render('indexCourses',{ school:school,
                         articles:articles.reverse(),
                         page:page,
                         teacherSubjects: teacherSubjects,
