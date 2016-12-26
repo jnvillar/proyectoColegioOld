@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>{{school.name}}</title>
+    <base href="/">
+    <link href="../css/bootstrapCourses.css" rel='stylesheet' type='text/css' />
+    <link href="../css/styleCourses.css" rel='stylesheet' type='text/css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content=""/>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href='http://fonts.googleapis.com/css?family=Oswald:100,400,300,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,300italic' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/move-top.js"></script>
+    <script type="text/javascript" src="../js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event){
+                event.preventDefault();
+                $('html,body').animate({scrollTop:$(this.hash).offset().top},900);
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <div class="logo">
+            <a href="../courses"><img src="../images/logo4.jpg" title="" /></a>
+        </div>
+        <div class="top-menu">
+            <div class="search">
+                <form>
+                    <input type="text" placeholder="" required="">
+                    <input type="submit" value=""/>
+                </form>
+            </div>
+            <span class="menu"> </span>
+            <ul>
+                <li><a href="../">HOME</a></li>
+                <li class="active"><a href="../courses">CURSOS</a></li>
+                {{#user.admin}}
+                    <li class="active"><a href="../courses/allSubjects">AÑOS</a></li>
+                    <li class="active"><a href="../courses/students">ESTUDIANTES</a></li>
+                {{/user.admin}}
+                <div class="clearfix"> </div>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+        <script>
+            $("span.menu").click(function(){
+                $(".top-menu ul").slideToggle("slow" , function(){
+                });
+            });
+        </script>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container">
+        <div class="content-grids">
+            <div class="col-md-8 single-main">
+                <div class="single-grid">
+                    <div id="postTitle"> {{post.name}} </div>
+                        <div id="post">
+                            <p>{{{post.content}}}</p>
+                        </div>
+                </div>
+
+
+            <div class = "commentZone">
+                {{^user.admin}}
+                    {{#each comments}}
+                        <div id = "commentBox">
+                            <div>   <a id = "commentUser"> {{name}}</a>
+                                {{#equal ../user.name name}}
+                                    <a id = "commentDislike"  href="../borrarComentario/{{_id}}">Borrar</a>
+                                {{/equal}}
+                                <a id = "commentDislike" href="../voteComment/{{_id}}/1">Dislikes: {{dislikes}}</a>
+                                <a id = "commentLike" href="../voteComment/{{_id}}/0"> Likes: {{likes}}</a>
+                            </div>
+                            <div id = "commentText">
+                                <p id = "commentText">{{comment}}</p>
+                            </div>
+                        </div>
+                    {{/each}}
+                {{/user.admin}}
+            </div>
+
+
+
+            <div class = "commentZone">
+                {{#user.admin}}
+                    {{#each comments}}
+                        <div id = "commentBox">
+                            <div>   <a id = "commentUser"> {{name}}</a>
+                                <a id = "commentDislike" href="../borrarComentario/{{_id}}"> Borrar </a>
+                                <a id = "commentDislike" href="../voteComment/{{_id}}/1">Dislikes: {{dislikes}}</a>
+                                <a id = "commentLike" href="../voteComment/{{_id}}/0"> Likes: {{likes}}</a>
+                            </div>
+                            <div id = "commentText">
+                                <p id = "commentText">{{comment}}</p>
+                            </div>
+                        </div>
+                    {{/each}}
+                {{/user.admin}}
+            </div>
+
+            <h3>Deja un comentario</h3>
+            <form id="commentForm" action="/newComment/{{post._id}}" method="POST">
+                <div id = "input" class="row">
+                    <label for="comment">Comentario</label><br />
+                    <input id="comment" class="input" name="comment" type="text" value="" size="30" /><br />
+                </div>
+                <input id="submit_button_comment" type="submit" value="Mandar Comentario" />
+            </form>
+        </div>
+
+
+            <div class="col-md-4 content-right">
+                <div class="recent">
+                    <h3>Utilidades</h3>
+                        <ul>
+
+                            <li><a href="../courses/logout">Cerrar Sesión</a></li>
+                            <li><a href="../deleteSubjectPost/{{post._id}}">Borrar Post</a></li>
+                            {{#if user.teacher}}
+                                <li><a href="../courses/years">Sistema de Notas</a></li>
+                            {{/if}}
+                        </ul>
+
+                </div>
+                {{#unless user.teacher}}
+                    <div class="recent">
+                        <h3>Materias</h3>
+                        <ul>
+                            {{#subjects}}
+                                <li><a href="../subject/{{_id}}">{{name}}</a></li>
+                            {{/subjects}}
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                {{/unless}}
+
+                {{#if user.teacher}}
+                    <div class="recent">
+                        <h3>Materias</h3>
+                        <ul>
+                            {{#teacherSubjects}}
+                                <h3 style="margin-top: 8%">{{year}}</h3>
+                                {{#subjects}}
+                                    <li><a href="../subject/{{_id}}">{{name}}</a></li>
+                                {{/subjects}}
+                            {{/teacherSubjects}}
+                        </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                {{/if}}
+
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <p>© 2016 <a href="{{page.businessPage}}" target="_blank">{{page.businessName}}</a> </p>
+    </div>
+</div>

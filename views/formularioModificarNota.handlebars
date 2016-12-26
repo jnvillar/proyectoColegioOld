@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>{{school.name}}</title>
+    <base href="/">
+    <link href="../css/bootstrapCourses.css" rel='stylesheet' type='text/css' />
+    <link href="../css/styleCourses.css" rel='stylesheet' type='text/css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content=""/>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href='http://fonts.googleapis.com/css?family=Oswald:100,400,300,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,300italic' rel='stylesheet' type='text/css'>
+    <script src="http:////cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/move-top.js"></script>
+    <script type="text/javascript" src="../js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event){
+                event.preventDefault();
+                $('html,body').animate({scrollTop:$(this.hash).offset().top},900);
+            });
+        });
+    </script>
+
+
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <div class="logo">
+            <a href="../courses"><img src="../images/logo4.jpg" title="" /></a>
+        </div>
+        <div class="top-menu">
+            <div class="search">
+                <form>
+                    <input type="text" placeholder="" required="">
+                    <input type="submit" value=""/>
+                </form>
+            </div>
+            <span class="menu"> </span>
+            <ul>
+                <li><a href="../">HOME</a></li>
+                <li class="active"><a href="../courses">CURSOS</a></li>
+                {{#user.admin}}
+                    <li class="active"><a href="../courses/allSubjects">AÑOS</a></li>
+                    <li class="active"><a href="../courses/students">ESTUDIANTES</a></li>
+                {{/user.admin}}
+                <div class="clearfix"> </div>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+        <script>
+            $("span.menu").click(function(){
+                $(".top-menu ul").slideToggle("slow" , function(){
+                });
+            });
+
+
+        </script>
+    </div>
+</div>
+<div class="content">
+    <div class="container">
+        <div class="content-grids">
+            <div class="col-md-8 content-main">
+                <div class="content-grid">
+
+                    <div id="subject_title">
+                        <p> Modificar nota de {{student.name}}  </p>
+                    </div>
+
+                    <form id="articleForm" action="../courses/modifyGrade/{{grade.idG}}/{{student._id}}/{{subject.idS}}" method="POST">
+
+                        <div id="input" style="margin-bottom: 2%">
+                            <label for="titulo">Nuevo nombre de la calificacion</label><br />
+                            <input id="titulo" class="input" name="gradeName" type="text" value="" size="30" required/><br />
+                        </div>
+
+                        <div id="input">
+                            <label for="titulo">Nueva calificación</label><br />
+                            <input list="subjects" id="titulo" class="input" name="gradeValue" type="text" value="" size="30" required><br />
+                            <datalist id="subjects">
+                                <option value="10">
+                                <option value="9">
+                                <option value="8">
+                                <option value="7">
+                                <option value="6">
+                                <option value="5">
+                                <option value="4">
+                                <option value="3">
+                                <option value="2">
+                                <option value="1">
+                                <option value="0">
+                            </datalist>
+                        </div>
+
+                        <script>
+
+                            $('#titulo input').blur(function()
+                            {
+                                if( !$(this).val() ) {
+                                    $(this).parents('p').addClass('warning');
+                                }
+                            });
+
+                        </script>
+
+                        <input id="submit_button"  style="margin-bottom: 2% "type="submit" value="Modificar Nota" />
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-4 content-right">
+                <div class="recent">
+                    <h3>Utilidades</h3>
+                    <ul>
+                        <li><a href="../courses/nuevoArticulo">Nuevo Articulo</a></li>
+                        <li><a href="../courses/logout">Cerrar Sesión</a></li>
+                        {{#if user.teacher}}
+                            <li><a href="../courses/years">Sistema de Notas</a></li>
+                        {{/if}}
+                    </ul>
+
+                </div>
+                <div class="recent">
+                    <h3>Materias</h3>
+                    <ul>
+                        {{#teacherSubjects}}
+                            <h3 style="margin-top: 8%">{{year}}</h3>
+                            {{#subjects}}
+                                <li><a href="../subject/{{_id}}">{{name}}</a></li>
+                            {{/subjects}}
+                        {{/teacherSubjects}}
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <p>Copyrights © 2016 <a href="{{page.businessPage}}">{{page.businessName}}</a></p>
+    </div>
+</div>
+

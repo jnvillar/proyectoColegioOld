@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<!--
+	Future Imperfect by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Campus Virtual - Consultas</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="../js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="../css/styleNew.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="../css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="../css/ie8.css" /><![endif]-->
+		<!-- libreria jQuery hosteada por google-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<!-- script jquery: -->
+		<script>
+		$( document ).ready(function() { // cuando la web ya esta cargada ejecuta esto:
+		    $.get( "/apiUserSubjects", function( jsonPiola ) {
+		      arrayParseado = JSON.parse( jsonPiola ); // jsonPiola es un string, lo transformo a Json
+		      var contenido = '<ul>';
+		      var i = 0;
+		      var j = 0;
+		      while( i < arrayParseado.length ){
+		            contenido += '<ul class="links">';
+		            contenido += '<h2> ' + arrayParseado[i].year + '</h2>';
+		        while( j < arrayParseado[i].subjects.length ){
+		        	contenido += '<li>';
+                    contenido += '<a>';
+		        	contenido += '<h3>' + (arrayParseado[i].subjects[j]).name + '</h3>';
+                    contenido += '</a>';
+		        	contenido += '</li>';
+		        	j++;
+		        }
+			    contenido += '</ul>';
+			    j=0;
+		      	i++
+		      }
+		      $( "#menuMateriasShow" ).html( contenido );
+		    }); // fin get method.
+
+            $.get( "/apiArticles", function( json ) {
+                articles = JSON.parse( json );
+                var i=0;
+                var contenido;
+                while(i<articles.length) {
+                    contenido += '<article class="post">';
+
+                    contenido += '<header>';
+                            contenido += '<div class="title">';
+                                contenido += '<h2><a href="#">' + articles[i].title +'</a></h2>';
+                            contenido += '</div>';
+
+                        contenido += '<div class="meta">';
+                            contenido += '<time class="published" datetime="2015-11-01"> falta guardar fecha</time>';
+                            contenido += '<a href="#" class="author"><span class="name" >'+ articles[i].author +'</span></a>';
+                        contenido += '</div>';
+                    contenido += '</header>';
+
+                    contenido += '<div style="word-wrap: break-word; display: block; width: inherit">'+articles[i].content.substring(0,100)+'</div>';
+
+                    contenido += '<footer>';
+                        contenido += '<ul class="actions">';
+                        contenido += '<li><a href="#" class="button big">Seguir Leyendo...</a></li>';
+                        contenido += '</ul>';
+
+                        contenido += '<ul class="stats">';
+                        contenido += '<li><a href="#">Visitas 2200</a></li>';
+                        contenido += '<li><a href="#" class="icon fa-heart">28</a></li>';
+                        contenido += '<li><a href="#" class="icon fa-comment">128</a></li>';
+                        contenido += '</ul>';
+
+                    contenido += '</footer>';
+                    contenido += '</article>';
+                    i++
+                }
+
+                contenido+= '<ul class="actions pagination">';
+                contenido+= '<li><a href="" class="disabled button big previous">Anterior</a></li>';
+                contenido += '<li><a href="#" class="button big next">Siguiente</a></li>';
+                contenido += '</ul>';
+                $( "#main" ).html( contenido );
+            });
+		});// fin ready document
+		</script>
+
+
+    </head>
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="#">Inicio</a></h1>
+						<nav class="links">
+							<ul>
+								<li><a href="#">Noticias</a></li>
+								<li><a href="#">Años</a></li>
+								<li><a href="#"> Sistema de Notas </a></li>
+								<li><a href="courses/logout" style="text-decoration:none; color: #99CC00;"> Cerrar Sesion</a></li>
+							</ul>
+						</nav>
+						<nav class="main">
+							<ul>
+								<li class="search">
+									<a class="fa-search" href="#search">Search</a>
+									<form id="search" method="get" action="#">
+										<input type="text" name="query" placeholder="Buscar" />
+									</form>
+								</li>
+								<li class="menu">
+									<a class="fa-bars" href="#menu">Menu</a>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<section id="menu">
+
+						<!-- Search -->
+							<section>
+								<form class="search" method="get" action="#">
+									<input type="text" name="query" placeholder="Buscar" />
+								</form>
+							</section>
+
+						<!-- Links -->
+							<section id="menuMateriasShow" >
+							</section>
+
+						<!-- Actions -->
+							<section>
+								<ul class="actions vertical">
+									<li><a href="#" class="button big fit">Perfil De Usuario</a></li>
+										<!--<li><img src="images/face2.jpg" alt="Mountain View" style="width:304px;height:228px;"></li>-->
+									<li>datos del usuario traidos por Json</li>
+								</ul>
+							</section>
+
+					</section>
+
+				<!-- Main -->
+					<div id="main">
+					</div>
+
+				<!-- Sidebar -->
+					<section id="sidebar">
+
+						<!-- Intro -->
+							<section id="intro">
+								<!--<a href="#" class="logo"><img src="images/logo.jpg" alt="" /></a>-->
+								<!--<a href="#"><img src="images/logoCampusVirtual.jpg" alt="" /></a>-->
+								<header>
+									<h2>Campus Virtual</h2>
+									<p>Sistema de consultas de datos.</p>
+								</header>
+							</section>
+
+
+
+						<!-- Posts List -->
+							<section>
+								<ul class="posts">
+									<li> Noticias </li>
+									<li>
+										<article>
+											<header>
+												<h3><a href="#">Noticia</a></h3>
+												<time class="published" datetime="2015-10-20">October 20, 2015</time>
+											</header>
+											<a href="#" class="image"><img src="../images/pic08.jpg" alt="" /></a>
+										</article>
+									</li>
+									<li>
+										<article>
+											<header>
+												<h3><a href="#">Noticia</a></h3>
+												<time class="published" datetime="2015-10-15">October 15, 2015</time>
+											</header>
+											<a href="#" class="image"><img src="../images/pic09.jpg" alt="" /></a>
+										</article>
+									</li>
+									<li>
+										<article>
+											<header>
+												<h3><a href="#">Noticia</a></h3>
+												<time class="published" datetime="2015-10-10">October 10, 2015</time>
+											</header>
+											<a href="#" class="image"><img src="../images/pic10bis.jpg" alt="" /></a>
+										</article>
+									</li>
+									<li>
+										<article>
+											<header>
+												<h3><a href="#">Noticia</a></h3>
+												<time class="published" datetime="2015-10-08">October 8, 2015</time>
+											</header>
+											<a href="#" class="image"><img src="../images/pic11bis.jpg" alt="" /></a>
+										</article>
+									</li>
+									<li>
+										<article>
+											<header>
+												<h3><a href="#">Noticia</a></h3>
+												<time class="published" datetime="2015-10-06">October 7, 2015</time>
+											</header>
+											<a href="#" class="image"><img src="../images/pic12bis.jpg" alt="" /></a>
+										</article>
+									</li>
+								</ul>
+							</section>
+
+
+						<!-- Footer -->
+							<section id="footer">
+								<ul class="icons">
+									<li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="fa-rss"><span class="label">RSS</span></a></li>
+									<li><a href="#" class="fa-envelope"><span class="label">Email</span></a></li>
+								</ul>
+								<p class="copyright">&copy; Untitled. Diseñado por: <a href="http://html5up.net">Nombre Empresa.</a> Powered by Node.js HTML5, CSS3, JS, Jquery, Express, Moustache, MongoDB y HandleBars </a>.</p>
+							</section>
+
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="../js/jquery.min.js"></script>
+			<script src="../js/skel.min.js"></script>
+			<script src="../js/util.js"></script>
+			<!--[if lte IE 8]><script src="../js/ie/respond.min.js"></script><![endif]-->
+			<script src="../js/main.js"></script>
+
+	</body>
+</html>
